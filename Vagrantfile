@@ -32,13 +32,20 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "db", primary: true do |subconfig|
+  config.vm.define "db" do |subconfig|
     subconfig.vm.box = BOX_IMAGE
     subconfig.vm.hostname = "db"
     subconfig.vm.network :private_network, ip: "10.0.0.20"
     subconfig.vm.provision "shell", path: "db.sh"
     subconfig.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "768"]
+      # vb.customize ["modifyvm", :id, "--memory", "768"]
+      unless File.exist?('db_disk0.vdi' || 'db_disk1.vdi')
+        vb.customize ['createhd', '--filename', 'db_disk0', '--size', 2 * 520]
+        vb.customize ['createhd', '--filename', 'db_disk1', '--size', 2 * 520]
+      end
+      #vb.customize ['storagectl', :id, '--name', 'SATA Controller', '--add', 'sata']
+      vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', '1', '--device', 0, '--type', 'hdd', '--medium', 'db_disk0.vdi']
+      vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', '2', '--device', 0, '--type', 'hdd', '--medium', 'db_disk1.vdi']
     end
   end
 
@@ -54,4 +61,4 @@ Vagrant.configure("2") do |config|
     end
   end
 
-end 
+end
