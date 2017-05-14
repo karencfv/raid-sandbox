@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
       subconfig.vm.network :private_network, ip: "10.0.0.#{i + 10}"
       subconfig.vm.provision "shell", path: "web.sh"
       subconfig.vm.provider "virtualbox" do |vb|
-        vb.customize ["modifyvm", :id, "--memory", "520"]
+        vb.customize ["modifyvm", :id, "--memory", "512"]
       end
     end
   end
@@ -40,8 +40,8 @@ Vagrant.configure("2") do |config|
     subconfig.vm.provider "virtualbox" do |vb|
       # vb.customize ["modifyvm", :id, "--memory", "768"]
       unless File.exist?('db_disk0.vdi' || 'db_disk1.vdi')
-        vb.customize ['createhd', '--filename', 'db_disk0', '--size', 2 * 520]
-        vb.customize ['createhd', '--filename', 'db_disk1', '--size', 2 * 520]
+        vb.customize ['createhd', '--filename', 'db_disk0', '--size', 2 * 512]
+        vb.customize ['createhd', '--filename', 'db_disk1', '--size', 2 * 512]
       end
       #vb.customize ['storagectl', :id, '--name', 'SATA Controller', '--add', 'sata']
       vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', '1', '--device', 0, '--type', 'hdd', '--medium', 'db_disk0.vdi']
@@ -56,7 +56,7 @@ Vagrant.configure("2") do |config|
       subconfig.vm.network :private_network, ip: "10.0.0.#{i + 20}"
       subconfig.vm.provision "shell", path: "db.sh"
       subconfig.vm.provider "virtualbox" do |vb|
-        vb.customize ["modifyvm", :id, "--memory", "520"]
+        vb.customize ["modifyvm", :id, "--memory", "512"]
       end
     end
   end
