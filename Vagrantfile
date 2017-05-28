@@ -32,34 +32,53 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "db" do |subconfig|
+  config.vm.define "db-raid0" do |subconfig|
     subconfig.vm.box = BOX_IMAGE
-    subconfig.vm.hostname = "db"
+    subconfig.vm.hostname = "db-raid0"
     subconfig.vm.network :private_network, ip: "10.0.0.20"
+    subconfig.vm.provision "shell", path: "db.sh"
     subconfig.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", "512"]
       unless File.exist?('db_disk0.vdi' || 'db_disk1.vdi')
-        vb.customize ['createhd', '--filename', 'db_disk0', '--size', 2 * 512]
-        vb.customize ['createhd', '--filename', 'db_disk1', '--size', 2 * 512]
+        vb.customize ['createhd', '--filename', 'db_disk0', '--size', 512]
+        vb.customize ['createhd', '--filename', 'db_disk1', '--size', 512]
       end
       # Attach disks
       # vb.customize ['storagectl', :id, '--name', 'SATA Controller', '--add', 'sata']
       vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', '1', '--device', 0, '--type', 'hdd', '--medium', 'db_disk0.vdi']
       vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', '2', '--device', 0, '--type', 'hdd', '--medium', 'db_disk1.vdi']
     end
+    subconfig.vm.provision "shell", path: "raidlevels/raid0.sh"
+  end
+
+  config.vm.define "db-raid1" do |subconfig|
+    subconfig.vm.box = BOX_IMAGE
+    subconfig.vm.hostname = "db-raid1"
+    subconfig.vm.network :private_network, ip: "10.0.0.21"
     subconfig.vm.provision "shell", path: "db.sh"
-  end
-
-  (1..DB_NODE_COUNT).each do |i|
-    config.vm.define "db-node#{i}", autostart: false do |subconfig|
-      subconfig.vm.box = BOX_IMAGE
-      subconfig.vm.hostname = "db-node#{i}"
-      subconfig.vm.network :private_network, ip: "10.0.0.#{i + 20}"
-      subconfig.vm.provision "shell", path: "db.sh"
-      subconfig.vm.provider "virtualbox" do |vb|
-        vb.customize ["modifyvm", :id, "--memory", "512"]
+    subconfig.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "512"]
+      unless File.exist?('db1_disk0.vdi' || 'db1_disk1.vdi')
+        vb.customize ['createhd', '--filename', 'db1_disk0', '--size', 512]
+        vb.customize ['createhd', '--filename', 'db1_disk1', '--size', 512]
       end
+      # Attach disks
+      # vb.customize ['storagectl', :id, '--name', 'SATA Controller', '--add', 'sata']
+      vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', '1', '--device', 0, '--type', 'hdd', '--medium', 'db1_disk0.vdi']
+      vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', '2', '--device', 0, '--type', 'hdd', '--medium', 'db1_disk1.vdi']
     end
+    subconfig.vm.provision "shell", path: "raidlevels/raid1.sh"
   end
 
+#  (1..DB_NODE_COUNT).each do |i|
+#    config.vm.define "db-node#{i}", autostart: false do |subconfig|
+#      subconfig.vm.box = BOX_IMAGE
+#      subconfig.vm.hostname = "db-node#{i}"
+#      subconfig.vm.network :private_network, ip: "10.0.0.#{i + 20}"
+#      subconfig.vm.provision "shell", path: "db.sh"
+#      subconfig.vm.provider "virtualbox" do |vb|
+#        vb.customize ["modifyvm", :id, "--memory", "512"]
+#      end
+#    end
+#  end
 end
