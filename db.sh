@@ -11,10 +11,7 @@ debconf-set-selections <<< 'mdadm mdadm/autocheck boolean true'
 debconf-set-selections <<< 'mdadm mdadm/initrdstart_notinconf boolean false'
 debconf-set-selections <<< 'mdadm mdadm/start_daemon boolean true'
 debconf-set-selections <<< 'mdadm mdadm/daemon_options string --syslog'
-#debconf-set-selections <<< 'mdadm mdadm/verbose boolean true'
 
 apt-get update
 
 apt-get install -y mysql-server initramfs-tools mdadm
-
-#apt-get -q -y install mdadm --no-install-recommends

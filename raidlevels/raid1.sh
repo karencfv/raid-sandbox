@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Create Raid1 array
+# Create RAID1 array
 mdadm --create --verbose /dev/md0 --level=1 --raid-devices=2 /dev/sdb /dev/sdc <<EOF
 y
 EOF
@@ -11,7 +11,7 @@ mkfs.ext4 -F /dev/md0
 mkdir -p /mnt/md0
 
 # Mount FS
-sudo mount /dev/md0 /mnt/md0
+mount /dev/md0 /mnt/md0
 
 # Scan active array and append mdadm.conf file
 mdadm --detail --scan | tee -a /etc/mdadm/mdadm.conf
