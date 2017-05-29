@@ -1,8 +1,6 @@
 ## Experimental LAMP multiple machine VM
 2 apache servers (master - slave)
 
-3 mysql DB (1 master - 2 slaves)
-
-slaves deaulted to: `autostart: false`
+5 mysql DB set up in different RAID level arrays
 
 More info to come... I'm sleepy now
