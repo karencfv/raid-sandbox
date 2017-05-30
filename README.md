@@ -3,4 +3,6 @@
 
 5 mysql DB set up in different RAID level arrays
 
+TODO: setup logs
+
 More info to come... I'm sleepy now
