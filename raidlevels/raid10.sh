@@ -4,7 +4,7 @@ mdadm --create --verbose /dev/md0 --level=10 --raid-devices=4 /dev/sdb /dev/sdc 
 # To use a different layout, or change the number of copies,
 # you will have to use the --layout= option, which takes a layout and copy identifier.
 # The layouts are n for near, f for far, and o for offset. The number of copies to store is appended afterwards.
-#For instance, to create an array that has 3 copies in the offset layout, the command would look like this:
+#e.g. to create an array that has 3 copies in the offset layout, the command would be this:
 # mdadm --create --verbose /dev/md0 --level=10 --layout=o3 --raid-devices=4 /dev/sda /dev/sdb /dev/sdc /dev/sdd
 
 # Create filesystem
