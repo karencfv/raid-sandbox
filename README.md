@@ -3,6 +3,6 @@
 
 5 mysql DB set up in different RAID level arrays
 
-TODO: setup logs
+TODO: Benchmarking (hdparm or other) raid0 vs raid6
 
 More info to come... I'm sleepy now
