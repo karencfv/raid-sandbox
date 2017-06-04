@@ -14,4 +14,4 @@ debconf-set-selections <<< 'mdadm mdadm/daemon_options string --syslog'
 
 apt-get update
 
-apt-get install -y mysql-server initramfs-tools mdadm
+apt-get install -y mysql-server initramfs-tools mdadm sysstat hdparm

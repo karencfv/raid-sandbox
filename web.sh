@@ -9,4 +9,4 @@ if ! [ -L /var/www  ]; then
   ln -fs /vagrant /var/www
 fi
 
-apt-get -y install php5 libapache2-mod-php5
+apt-get -y install php5 libapache2-mod-php5 sysstat hdparm
