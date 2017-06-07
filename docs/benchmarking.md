@@ -78,10 +78,14 @@ vagrant@db-raid6:~$ sudo time sh -c "dd if=/dev/zero of=/dev/md0 bs=4k count=100
 32inputs+800000outputs (2major+249minor)pagefaults 0swaps
 ```
 
-`dd` is destructive and should really not be used much, as I found out. According to virtualbox I now have 64Z of storage capacity which I have used up already. ¬_¬ 
+`dd` is destructive and should really not be used much, as I found out. According to virtualbox I now have 64Z of storage capacity which I have used up already. ¬_¬
 ```
 vagrant@db-raid0:~$ df -h -x devtmpfs -x tmpfs
 Filesystem      Size  Used Avail Use% Mounted on
 /dev/sda1       9.2G  1.3G  7.5G  15% /
 /dev/md0         64Z   64Z  973M 100% /mnt/md0
 ```
+
+### Method 3 (bonnie++):
+
+TODO: Try it out
