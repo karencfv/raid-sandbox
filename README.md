@@ -28,6 +28,8 @@ Requires n+2 (where n is the number of data disks) disk drives to implement.
 Combination of RAID 0 and RAID 1, data is both mirrored and striped.
 A minimum of 4 disk drives are needed to implement.
 
+
 Benchmarking information and results can be found [here](https://github.com/karencfv/raid-sandbox/blob/master/docs/benchmarking.md)
 
-_**Note:** As it's a sandbox it's pretty barebones, feel free to play around_
+
+_**Note:** As it's a sandbox it's pretty barebones, feel free to play around!_
